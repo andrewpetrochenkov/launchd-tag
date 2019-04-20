@@ -1,0 +1,13 @@
+{
+  "name": "launchd-tag",
+  "version": "2019.4.20",
+  "description": "LaunchAgents Finder tags",
+  "keywords": [
+    "launchd"
+  ],
+  "homepage": "https://github.com/looking-for-a-job/launchd-tag",
+  "license": "Unlicense",
+  "bin": {
+    "launchd-tag": "./scripts/launchd-tag"
+  }
+}
