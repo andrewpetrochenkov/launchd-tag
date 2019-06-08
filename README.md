@@ -25,9 +25,9 @@ $ brew install tag
 color|description
 -|-
 none|running
-gray|not running
-red|non-zero exit status
-orange|not empty stderr (`StandardErrorPath`)
+Gray|not running
+Red|non-zero exit status
+Orange|not empty stderr (`StandardErrorPath`)
 
 #### Scripts usage
 ```bash
