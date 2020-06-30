@@ -3,10 +3,10 @@
 
 usage() {
     echo "usage: $(basename $0)" 1>&2
-    [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+    [ "$1" = "-h" ] || [ "$1" = "--help" ]; exit
 }
 
-[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+[ "$1" = "-h" ] || [ "$1" = "--help" ] && usage "$@"
 
 IFS=
 f1="$(mktemp)" || exit
@@ -18,7 +18,7 @@ unloaded="$(while IFS= read a; do
     IFS='|';set $a; [[ "$list" != *"$2"* ]] && echo "$1"
 done <<< "$agents")"
 Gray="$([[ -n "$unloaded" ]] && while IFS= read f; do
-    while [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
+    while [[ $f == ~/Library/* ]] && [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
 done <<< "$unloaded" | sort -u)"
 
 err_status="$(while IFS= read a; do
@@ -26,12 +26,12 @@ err_status="$(while IFS= read a; do
     [[ "$list" == *"$label"* ]] && { echo "$list" | grep -q "0 $label"$ || echo "$path"; }
 done <<< "$agents")"
 Red="$([[ -n "$unloaded" ]] && while IFS= read f; do
-    while [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
+    while [[ $f == ~/Library/* ]] && [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
 done <<< "$err_status" | sort -u)"
 
 err_log="$(find ~/Library/LaunchAgents -name "*.plist" -exec sh -c 'path="$(/usr/libexec/PlistBuddy -c "Print StandardErrorPath" "{}" 2> /dev/null)"; [ -s "$path" ] && echo {}' ';')"
 Orange="$([[ -n "$unloaded" ]] && while IFS= read f; do
-    while [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
+    while [[ $f == ~/Library/* ]] && [[ $f != ~/Library ]]; do echo $f; f="${f%/*}"; done
 done <<< "$err_log" | sort -u)"
 
 for tag in Gray Red Orange; do
